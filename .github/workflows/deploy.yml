@@ -1,0 +1,41 @@
+name: Build and Deploy to AKS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Log in to Docker Hub
+      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t microservice-app .
+        docker tag microservice-app mostafaaabadawy/microservice-app:latest
+        docker push mostafaaabadawy/microservice-app:latest
+
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Set AKS Context
+      uses: azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        resource-group: microservice-rg
+        cluster-name: microservice-aks
+
+    - name: Deploy to AKS
+      uses: azure/k8s-deploy@v4
+      with:
+        manifests: |
+          deployment.yaml
+          service.yaml
