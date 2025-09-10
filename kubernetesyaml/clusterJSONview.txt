@@ -1,0 +1,133 @@
+{
+    "id": "/subscriptions/23fb7416-3883-4129-8707-4c05f8a2c325/resourcegroups/microservice-rg/providers/Microsoft.ContainerService/managedClusters/microservice-aks",
+    "location": "eastus",
+    "name": "microservice-aks",
+    "tags": {
+        "Environment": "Dev"
+    },
+    "type": "Microsoft.ContainerService/ManagedClusters",
+    "properties": {
+        "provisioningState": "Succeeded",
+        "powerState": {
+            "code": "Running"
+        },
+        "kubernetesVersion": "1.32",
+        "currentKubernetesVersion": "1.32.6",
+        "dnsPrefix": "microservice",
+        "fqdn": "microservice-zcfo4655.hcp.eastus.azmk8s.io",
+        "azurePortalFQDN": "microservice-zcfo4655.portal.hcp.eastus.azmk8s.io",
+        "agentPoolProfiles": [
+            {
+                "name": "default",
+                "count": 1,
+                "vmSize": "Standard_B2s",
+                "osDiskSizeGB": 128,
+                "osDiskType": "Managed",
+                "kubeletDiskType": "OS",
+                "maxPods": 250,
+                "type": "VirtualMachineScaleSets",
+                "enableAutoScaling": false,
+                "scaleDownMode": "Delete",
+                "provisioningState": "Succeeded",
+                "powerState": {
+                    "code": "Running"
+                },
+                "orchestratorVersion": "1.32",
+                "currentOrchestratorVersion": "1.32.6",
+                "enableNodePublicIP": false,
+                "mode": "System",
+                "enableEncryptionAtHost": false,
+                "enableUltraSSD": false,
+                "osType": "Linux",
+                "osSKU": "Ubuntu",
+                "nodeImageVersion": "AKSUbuntu-2204gen2containerd-202508.20.1",
+                "upgradeSettings": {
+                    "maxSurge": "10%"
+                },
+                "enableFIPS": false
+            }
+        ],
+        "servicePrincipalProfile": {
+            "clientId": "msi"
+        },
+        "nodeResourceGroup": "MC_microservice-rg_microservice-aks_eastus",
+        "enableRBAC": true,
+        "supportPlan": "KubernetesOfficial",
+        "networkProfile": {
+            "networkPlugin": "azure",
+            "networkPluginMode": "overlay",
+            "networkDataplane": "azure",
+            "loadBalancerSku": "standard",
+            "loadBalancerProfile": {
+                "managedOutboundIPs": {
+                    "count": 1
+                },
+                "effectiveOutboundIPs": [
+                    {
+                        "id": "/subscriptions/23fb7416-3883-4129-8707-4c05f8a2c325/resourceGroups/MC_microservice-rg_microservice-aks_eastus/providers/Microsoft.Network/publicIPAddresses/fc0f3f6e-3810-4c46-9a00-f70576f9221b"
+                    }
+                ],
+                "backendPoolType": "nodeIPConfiguration"
+            },
+            "podCidr": "10.244.0.0/16",
+            "serviceCidr": "10.0.0.0/16",
+            "dnsServiceIP": "10.0.0.10",
+            "outboundType": "loadBalancer",
+            "podCidrs": [
+                "10.244.0.0/16"
+            ],
+            "serviceCidrs": [
+                "10.0.0.0/16"
+            ],
+            "ipFamilies": [
+                "IPv4"
+            ]
+        },
+        "maxAgentPools": 100,
+        "identityProfile": {
+            "kubeletidentity": {
+                "resourceId": "/subscriptions/23fb7416-3883-4129-8707-4c05f8a2c325/resourcegroups/MC_microservice-rg_microservice-aks_eastus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/microservice-aks-agentpool",
+                "clientId": "6493653e-3af6-4c54-a958-233b6ff3dd1b",
+                "objectId": "d0d66dbd-9d8d-484d-931b-73b61b82da6c"
+            }
+        },
+        "autoUpgradeProfile": {
+            "upgradeChannel": "none",
+            "nodeOSUpgradeChannel": "NodeImage"
+        },
+        "disableLocalAccounts": false,
+        "securityProfile": {},
+        "storageProfile": {
+            "diskCSIDriver": {
+                "enabled": true
+            },
+            "fileCSIDriver": {
+                "enabled": true
+            },
+            "snapshotController": {
+                "enabled": true
+            }
+        },
+        "oidcIssuerProfile": {
+            "enabled": false
+        },
+        "workloadAutoScalerProfile": {},
+        "azureMonitorProfile": {
+            "metrics": {
+                "enabled": false,
+                "kubeStateMetrics": {}
+            }
+        },
+        "resourceUID": "68c1954cad9b9b0001dadf34"
+    },
+    "identity": {
+        "type": "SystemAssigned",
+        "principalId": "e8db4b40-d21e-4a40-8c47-63b3262cc02d",
+        "tenantId": "d0bb7c6a-e6c3-44c4-8d0a-98b778477e2e"
+    },
+    "sku": {
+        "name": "Base",
+        "tier": "Free"
+    },
+    "apiVersion": "2023-10-01"
+}
