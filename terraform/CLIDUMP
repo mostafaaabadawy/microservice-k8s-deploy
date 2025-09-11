@@ -1,0 +1,484 @@
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc$ mkdir terraform-aks
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc$ ls
+Microservices  terraform-aks
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc$ cd terraform-aks/
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ ls
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ vi variables.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ vi main.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ vi cluster.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ vi outputs.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ az login --use-device-code
+To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code L5UPRFFSB to authenticate.
+
+Retrieving tenants and subscriptions for the selection...
+
+[Tenant and subscription selection]
+
+No     Subscription name                     Subscription ID                       Tenant
+-----  ------------------------------------  ------------------------------------  -----------------
+[1] *  Visual Studio Enterprise Subscrip...  <subID>  Default Directory
+
+The default is marked with an *; the default tenant is 'Default Directory' and subscription is 'Visual Studio Enterprise Subscription' (23fb7416-3883-4129-8707-4c05f8a2c325).
+
+Select a subscription and tenant (Type a number or Enter for no changes): 1
+
+Tenant: Default Directory
+Subscription: Visual Studio Enterprise Subscription (23fb7416-3883-4129-8707-4c05f8a2c325)
+
+[Announcements]
+With the new Azure CLI login experience, you can select the subscription you want to use more easily. Learn more about it and its configuration at https://go.microsoft.com/fwlink/?linkid=2271236
+
+If you encounter any problem, please open an issue at https://aka.ms/azclibug
+
+[Warning] The login output has been updated. Please be aware that it no longer displays the full list of available subscriptions by default.
+
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ az account set --subscription <subID>
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ ls
+cluster.tf  main.tf  outputs.tf  variables.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ more main.tf
+provider "azurerm" {
+  features {}
+}
+
+resource "azurerm_resource_group" "rg" {
+  name     = var.resource_group_name
+  location = var.location
+}
+
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ vi main.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ vi variables.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ vi cluster.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ terraform init
+Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/azurerm from the dependency lock file
+- Using previously-installed hashicorp/azurerm v4.43.0
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ terraform plan
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_kubernetes_cluster.aks will be created
+  + resource "azurerm_kubernetes_cluster" "aks" {
+      + current_kubernetes_version          = (known after apply)
+      + dns_prefix                          = "microservice"
+      + fqdn                                = (known after apply)
+      + http_application_routing_zone_name  = (known after apply)
+      + id                                  = (known after apply)
+      + kube_admin_config                   = (sensitive value)
+      + kube_admin_config_raw               = (sensitive value)
+      + kube_config                         = (sensitive value)
+      + kube_config_raw                     = (sensitive value)
+      + kubernetes_version                  = (known after apply)
+      + location                            = "eastus"
+      + name                                = "microservice-aks"
+      + node_os_upgrade_channel             = "NodeImage"
+      + node_resource_group                 = (known after apply)
+      + node_resource_group_id              = (known after apply)
+      + oidc_issuer_url                     = (known after apply)
+      + portal_fqdn                         = (known after apply)
+      + private_cluster_enabled             = false
+      + private_cluster_public_fqdn_enabled = false
+      + private_dns_zone_id                 = (known after apply)
+      + private_fqdn                        = (known after apply)
+      + resource_group_name                 = "microservice-rg"
+      + role_based_access_control_enabled   = true
+      + run_command_enabled                 = true
+      + sku_tier                            = "Free"
+      + support_plan                        = "KubernetesOfficial"
+      + tags                                = {
+          + "Environment" = "Dev"
+        }
+      + workload_identity_enabled           = false
+
+      + auto_scaler_profile (known after apply)
+
+      + default_node_pool {
+          + kubelet_disk_type    = (known after apply)
+          + max_pods             = (known after apply)
+          + name                 = "default"
+          + node_count           = 1
+          + node_labels          = (known after apply)
+          + orchestrator_version = (known after apply)
+          + os_disk_size_gb      = (known after apply)
+          + os_disk_type         = "Managed"
+          + os_sku               = (known after apply)
+          + scale_down_mode      = "Delete"
+          + type                 = "VirtualMachineScaleSets"
+          + ultra_ssd_enabled    = false
+          + vm_size              = "Standard_B2s"
+          + workload_runtime     = (known after apply)
+        }
+
+      + identity {
+          + principal_id = (known after apply)
+          + tenant_id    = (known after apply)
+          + type         = "SystemAssigned"
+        }
+
+      + kubelet_identity (known after apply)
+
+      + network_profile (known after apply)
+
+      + windows_profile (known after apply)
+    }
+
+  # azurerm_resource_group.rg will be created
+  + resource "azurerm_resource_group" "rg" {
+      + id       = (known after apply)
+      + location = "eastus"
+      + name     = "microservice-rg"
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + aks_cluster_name = "microservice-aks"
+  + kube_config      = (sensitive value)
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ terraform apply
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_kubernetes_cluster.aks will be created
+  + resource "azurerm_kubernetes_cluster" "aks" {
+      + current_kubernetes_version          = (known after apply)
+      + dns_prefix                          = "microservice"
+      + fqdn                                = (known after apply)
+      + http_application_routing_zone_name  = (known after apply)
+      + id                                  = (known after apply)
+      + kube_admin_config                   = (sensitive value)
+      + kube_admin_config_raw               = (sensitive value)
+      + kube_config                         = (sensitive value)
+      + kube_config_raw                     = (sensitive value)
+      + kubernetes_version                  = (known after apply)
+      + location                            = "eastus"
+      + name                                = "microservice-aks"
+      + node_os_upgrade_channel             = "NodeImage"
+      + node_resource_group                 = (known after apply)
+      + node_resource_group_id              = (known after apply)
+      + oidc_issuer_url                     = (known after apply)
+      + portal_fqdn                         = (known after apply)
+      + private_cluster_enabled             = false
+      + private_cluster_public_fqdn_enabled = false
+      + private_dns_zone_id                 = (known after apply)
+      + private_fqdn                        = (known after apply)
+      + resource_group_name                 = "microservice-rg"
+      + role_based_access_control_enabled   = true
+      + run_command_enabled                 = true
+      + sku_tier                            = "Free"
+      + support_plan                        = "KubernetesOfficial"
+      + tags                                = {
+          + "Environment" = "Dev"
+        }
+      + workload_identity_enabled           = false
+
+      + auto_scaler_profile (known after apply)
+
+      + default_node_pool {
+          + kubelet_disk_type    = (known after apply)
+          + max_pods             = (known after apply)
+          + name                 = "default"
+          + node_count           = 1
+          + node_labels          = (known after apply)
+          + orchestrator_version = (known after apply)
+          + os_disk_size_gb      = (known after apply)
+          + os_disk_type         = "Managed"
+          + os_sku               = (known after apply)
+          + scale_down_mode      = "Delete"
+          + type                 = "VirtualMachineScaleSets"
+          + ultra_ssd_enabled    = false
+          + vm_size              = "Standard_B2s"
+          + workload_runtime     = (known after apply)
+        }
+
+      + identity {
+          + principal_id = (known after apply)
+          + tenant_id    = (known after apply)
+          + type         = "SystemAssigned"
+        }
+
+      + kubelet_identity (known after apply)
+
+      + network_profile (known after apply)
+
+      + windows_profile (known after apply)
+    }
+
+  # azurerm_resource_group.rg will be created
+  + resource "azurerm_resource_group" "rg" {
+      + id       = (known after apply)
+      + location = "eastus"
+      + name     = "microservice-rg"
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + aks_cluster_name = "microservice-aks"
+  + kube_config      = (sensitive value)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_resource_group.rg: Creating...
+azurerm_kubernetes_cluster.aks: Creating...
+azurerm_resource_group.rg: Still creating... [00m09s elapsed]
+azurerm_resource_group.rg: Creation complete after 11s [id=/subscriptions/23fb7416-3883-4129-8707-4c05f8a2c325/resourceGroups/microservice-rg]
+╷
+│ Error: creating Kubernetes Cluster (Subscription: "23fb7416-3883-4129-8707-4c05f8a2c325"
+│ Resource Group Name: "microservice-rg"
+│ Kubernetes Cluster Name: "microservice-aks"): performing CreateOrUpdate: unexpected status 404 (404 Not Found) with error: ResourceGroupNotFound: Resource group 'microservice-rg' could not be found.
+│
+│   with azurerm_kubernetes_cluster.aks,
+│   on cluster.tf line 1, in resource "azurerm_kubernetes_cluster" "aks":
+│    1: resource "azurerm_kubernetes_cluster" "aks" {
+│
+╵
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ vi cluster.tf
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ terraform init
+Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/azurerm from the dependency lock file
+- Using previously-installed hashicorp/azurerm v4.43.0
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ terraform plan
+azurerm_resource_group.rg: Refreshing state... [id=/subscriptions/23fb7416-3883-4129-8707-4c05f8a2c325/resourceGroups/microservice-rg]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_kubernetes_cluster.aks will be created
+  + resource "azurerm_kubernetes_cluster" "aks" {
+      + current_kubernetes_version          = (known after apply)
+      + dns_prefix                          = "microservice"
+      + fqdn                                = (known after apply)
+      + http_application_routing_zone_name  = (known after apply)
+      + id                                  = (known after apply)
+      + kube_admin_config                   = (sensitive value)
+      + kube_admin_config_raw               = (sensitive value)
+      + kube_config                         = (sensitive value)
+      + kube_config_raw                     = (sensitive value)
+      + kubernetes_version                  = (known after apply)
+      + location                            = "eastus"
+      + name                                = "microservice-aks"
+      + node_os_upgrade_channel             = "NodeImage"
+      + node_resource_group                 = (known after apply)
+      + node_resource_group_id              = (known after apply)
+      + oidc_issuer_url                     = (known after apply)
+      + portal_fqdn                         = (known after apply)
+      + private_cluster_enabled             = false
+      + private_cluster_public_fqdn_enabled = false
+      + private_dns_zone_id                 = (known after apply)
+      + private_fqdn                        = (known after apply)
+      + resource_group_name                 = "microservice-rg"
+      + role_based_access_control_enabled   = true
+      + run_command_enabled                 = true
+      + sku_tier                            = "Free"
+      + support_plan                        = "KubernetesOfficial"
+      + tags                                = {
+          + "Environment" = "Dev"
+        }
+      + workload_identity_enabled           = false
+
+      + auto_scaler_profile (known after apply)
+
+      + default_node_pool {
+          + kubelet_disk_type    = (known after apply)
+          + max_pods             = (known after apply)
+          + name                 = "default"
+          + node_count           = 1
+          + node_labels          = (known after apply)
+          + orchestrator_version = (known after apply)
+          + os_disk_size_gb      = (known after apply)
+          + os_disk_type         = "Managed"
+          + os_sku               = (known after apply)
+          + scale_down_mode      = "Delete"
+          + type                 = "VirtualMachineScaleSets"
+          + ultra_ssd_enabled    = false
+          + vm_size              = "Standard_B2s"
+          + workload_runtime     = (known after apply)
+        }
+
+      + identity {
+          + principal_id = (known after apply)
+          + tenant_id    = (known after apply)
+          + type         = "SystemAssigned"
+        }
+
+      + kubelet_identity (known after apply)
+
+      + network_profile (known after apply)
+
+      + windows_profile (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + kube_config      = (sensitive value)
+
+──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't guarantee to take exactly these actions if you run "terraform apply" now.
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ terraform apply
+azurerm_resource_group.rg: Refreshing state... [id=/subscriptions/23fb7416-3883-4129-8707-4c05f8a2c325/resourceGroups/microservice-rg]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+
+Terraform will perform the following actions:
+
+  # azurerm_kubernetes_cluster.aks will be created
+  + resource "azurerm_kubernetes_cluster" "aks" {
+      + current_kubernetes_version          = (known after apply)
+      + dns_prefix                          = "microservice"
+      + fqdn                                = (known after apply)
+      + http_application_routing_zone_name  = (known after apply)
+      + id                                  = (known after apply)
+      + kube_admin_config                   = (sensitive value)
+      + kube_admin_config_raw               = (sensitive value)
+      + kube_config                         = (sensitive value)
+      + kube_config_raw                     = (sensitive value)
+      + kubernetes_version                  = (known after apply)
+      + location                            = "eastus"
+      + name                                = "microservice-aks"
+      + node_os_upgrade_channel             = "NodeImage"
+      + node_resource_group                 = (known after apply)
+      + node_resource_group_id              = (known after apply)
+      + oidc_issuer_url                     = (known after apply)
+      + portal_fqdn                         = (known after apply)
+      + private_cluster_enabled             = false
+      + private_cluster_public_fqdn_enabled = false
+      + private_dns_zone_id                 = (known after apply)
+      + private_fqdn                        = (known after apply)
+      + resource_group_name                 = "microservice-rg"
+      + role_based_access_control_enabled   = true
+      + run_command_enabled                 = true
+      + sku_tier                            = "Free"
+      + support_plan                        = "KubernetesOfficial"
+      + tags                                = {
+          + "Environment" = "Dev"
+        }
+      + workload_identity_enabled           = false
+
+      + auto_scaler_profile (known after apply)
+
+      + default_node_pool {
+          + kubelet_disk_type    = (known after apply)
+          + max_pods             = (known after apply)
+          + name                 = "default"
+          + node_count           = 1
+          + node_labels          = (known after apply)
+          + orchestrator_version = (known after apply)
+          + os_disk_size_gb      = (known after apply)
+          + os_disk_type         = "Managed"
+          + os_sku               = (known after apply)
+          + scale_down_mode      = "Delete"
+          + type                 = "VirtualMachineScaleSets"
+          + ultra_ssd_enabled    = false
+          + vm_size              = "Standard_B2s"
+          + workload_runtime     = (known after apply)
+        }
+
+      + identity {
+          + principal_id = (known after apply)
+          + tenant_id    = (known after apply)
+          + type         = "SystemAssigned"
+        }
+
+      + kubelet_identity (known after apply)
+
+      + network_profile (known after apply)
+
+      + windows_profile (known after apply)
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + kube_config      = (sensitive value)
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_kubernetes_cluster.aks: Creating...
+azurerm_kubernetes_cluster.aks: Still creating... [00m09s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [00m19s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [00m29s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [00m39s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [00m49s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [00m59s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [01m08s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [01m18s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [01m28s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [01m37s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [01m47s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [01m57s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [02m06s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [02m16s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [02m26s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [02m35s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [02m45s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [02m55s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [03m04s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [03m14s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [03m24s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [03m33s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [03m43s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [03m53s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [04m02s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [04m12s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [04m22s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [04m31s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [04m41s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [04m51s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [05m00s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [05m10s elapsed]
+azurerm_kubernetes_cluster.aks: Still creating... [05m20s elapsed]
+azurerm_kubernetes_cluster.aks: Creation complete after 5m25s [id=/subscriptions/23fb7416-3883-4129-8707-4c05f8a2c325/resourceGroups/microservice-rg/providers/Microsoft.ContainerService/managedClusters/microservice-aks]
+
+Apply complete! Resources: 1 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+aks_cluster_name = "microservice-aks"
+kube_config = <sensitive>
+
+mostafaaabadawy@DESKTOP-23P0K4M:~/pwc/terraform-aks$ ls
+cluster.tf  main.tf  outputs.tf  terraform.tfstate  terraform.tfstate.backup  variables.tf
