@@ -51,7 +51,11 @@ Check container status:
 ```bash
 docker ps -a
 ```
-
+Output:
+```bash
+CONTAINER ID   IMAGE              COMMAND           CREATED         STATUS                     PORTS     NAMES
+780ab4e64927   microservice-app   "python run.py"   9 seconds ago   Exited (1) 5 seconds ago             focused_galois
+```
 > ⚠️ Note: Fix `werkzeug` version to `==2.2.2` in `requirements.txt` to resolve runtime errors.
 
 ---
@@ -65,6 +69,21 @@ docker push mostafaaabadawy/microservice-app:latest
 ```
 
 Repository: [GitHub - microservice-k8s-deploy](https://github.com/mostafaaabadawy/microservice-k8s-deploy)
+
+Output:
+```bash
+The push refers to repository [docker.io/mostafaaabadawy/microservice-app]
+2dc9465ac3aa: Pushed
+459f38fc73fd: Pushed
+41dc2499d8fe: Pushed
+1d454ace0e38: Pushed
+ce1261c6d567: Pushed
+6abc6fb9d77e: Pushed
+5994c0fbe528: Pushed
+7fcdf9369fa9: Pushed
+a2c65383a5a3: Pushed
+latest: digest: sha256:ce7d23ff44e2abb47b80b66fa777959823bb45b68924a0bf9cb8336ff01747c6 size: 856
+```
 
 ---
 
@@ -138,7 +157,26 @@ Verify ingress and resources:
 kubectl get ingress
 kubectl get all
 ```
+Output:
+```bash
+mostafa [ ~ ]$ kubectl get ingress
+NAME                   CLASS   HOSTS                ADDRESS         PORTS   AGE
+microservice-ingress   nginx   microservice.local   57.152.95.203   80      73s
+mostafa [ ~ ]$ kubectl get all
+NAME                                           READY   STATUS    RESTARTS   AGE
+pod/microservice-deployment-8567bcb7c9-5tj4g   1/1     Running   0          9m
+pod/microservice-deployment-8567bcb7c9-xfdtf   1/1     Running   0          9m
 
+NAME                           TYPE           CLUSTER-IP   EXTERNAL-IP     PORT(S)        AGE
+service/kubernetes             ClusterIP      10.0.0.1     <none>          443/TCP        19m
+service/microservice-service   LoadBalancer   10.0.71.53   74.179.254.97   80:30240/TCP   8m53s
+
+NAME                                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/microservice-deployment   2/2     2            2           9m
+
+NAME                                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/microservice-deployment-8567bcb7c9   2         2         2       9m
+```
 ---
 
 ### 🔁 CI/CD with GitHub Actions
@@ -157,7 +195,7 @@ az ad sp create-for-rbac \
   --sdk-auth
 ```
 
-Run the workflow and verify pods are created.
+Run the workflow and verify pods are created.  Workflow run logs are available in the github files.
 
 ---
 
