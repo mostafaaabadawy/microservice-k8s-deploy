@@ -10,6 +10,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    environment: Main_Environment
 
     steps:
     - name: Checkout code
