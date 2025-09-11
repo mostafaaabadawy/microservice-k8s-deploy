@@ -44,8 +44,8 @@ jobs:
       uses: azure/k8s-deploy@v4
       with:
         manifests: |
-          deployment.yaml
-          service.yaml
-          ingress.yaml
+          kubernetesyaml/deployment.yaml
+          kubernetesyaml/service.yaml
+          kubernetesyaml/ingress.yaml
         images: |
           mostafaaabadawy/microservice-app:latest
